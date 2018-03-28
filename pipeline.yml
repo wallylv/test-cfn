@@ -10,6 +10,20 @@ Description: >
   for the AWS resources used when you create a stack using this template.
 
 Parameters:
+  GitHubOwner:
+    Type: String
+    Description: GitHub repository user name
+  GitHubRepo:
+    Type: String
+    Default: test-cfn
+    Description: GitHub repository name
+  GitHubBranch:
+    Type: String
+    Default: master
+    Description: GitHub repository branch
+  GitHubToken:
+    Type: String
+    Description: GitHub repository OAuth token
   PipelineName:
     Description: A name for pipeline
     Type: String
@@ -104,8 +118,10 @@ Resources:
                 Provider: GitHub
                 Version: '1'
               Configuration:
-                BranchName: master
-                RepositoryName: wallylv/test-cfn
+                Owner: !Ref GitHubOwner
+                Repo: !Ref GitHubRepo
+                Branch: !Ref GitHubBranch
+                OAuthToken: !Ref GitHubToken
               OutputArtifacts:
                 - Name: TemplateSource
               RunOrder: '1'
