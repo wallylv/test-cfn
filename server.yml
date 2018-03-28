@@ -36,53 +36,11 @@ Mappings:
     us-west-1:
       Windows2008r2: ami-24071144
       Windows2012r2: ami-b50513d5
-    eu-west-1:
-      Windows2008r2: ami-eb760692
-      Windows2012r2: ami-6d601014
-    eu-west-2:
-      Windows2008r2: ami-d60beeb1
-      Windows2012r2: ami-6a15f00d
-    eu-west-3:
-      Windows2008r2: ami-109d2b6d
-      Windows2012r2: ami-a79d2bda
-    eu-central-1:
-      Windows2008r2: ami-ad2d4cc2
-      Windows2012r2: ami-f8305197
-    ap-northeast-1:
-      Windows2008r2: ami-7bb4c91d
-      Windows2012r2: ami-19b4c97f
-    ap-northeast-2:
-      Windows2008r2: ami-a95af8c7
-      Windows2012r2: ami-2959fb47
-    ap-northeast-3:
-      Windows2008r2: ami-271c125a
-      Windows2012r2: ami-8c1c12f1
-    ap-southeast-1:
-      Windows2008r2: ami-85d092f9
-      Windows2012r2: ami-8bd597f7
-    ap-southeast-2:
-      Windows2008r2: ami-b9c500db
-      Windows2012r2: ami-01c30663
-    ap-south-1:
-      Windows2008r2: ami-0d174a62
-      Windows2012r2: ami-fd0d5092
     us-east-2:
       Windows2008r2: ami-a41726c1
       Windows2012r2: ami-3a958ad6
-    ca-central-1:
-      Windows2008r2: ami-c47ffba0
-      Windows2012r2: ami-63068207
-    sa-east-1:
-      Windows2008r2: ami-0f256c63
-      Windows2012r2: ami-ad256cc1
-    cn-north-1:
-      Windows2008r2: ami-69d70b04
-      Windows2012r2: ami-06c8146b
-    cn-northwest-1:
-      Windows2008r2: ami-ced4c0ac
-      Windows2012r2: ami-a32034c1
 Resources:
-  DomainController:
+  Server:
     Type: 'AWS::EC2::Instance'
     Properties:
       ImageId: !FindInMap 
@@ -91,12 +49,12 @@ Resources:
         - Windows2008r2
       InstanceType: !Ref InstanceType
       SecurityGroups:
-        - !Ref DomainControllerSecurityGroup
+        - !Ref ServerSecurityGroup
       KeyName: !Ref KeyName
-  DomainControllerSecurityGroup:
+  ServerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: Domain Controller
+      GroupDescription: Server
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '3389'
@@ -106,22 +64,22 @@ Resources:
     Type: "AWS::EC2::Volume"
     Properties:
       AvailabilityZone: !GetAtt 
-      - DomainController
+      - Server
       - AvailabilityZone
       Size: !Ref VolumeSize
       VolumeType: gp2
   MountPoint:
     Type: 'AWS::EC2::VolumeAttachment'
     Properties:
-      InstanceId: !Ref DomainController
+      InstanceId: !Ref Server
       VolumeId: !Ref NewVolume
       Device: xvdh
 Outputs:
   EC2:
-    Value: !Ref DomainController
+    Value: !Ref Server
     Export:
       Name: !Sub '${AWS::StackName}-EC2'
   AZ:
-    Value: !GetAtt DomainController.AvailabilityZone
+    Value: !GetAtt Server.AvailabilityZone
     Export:
       Name: !Sub '${AWS::StackName}-AZ'
