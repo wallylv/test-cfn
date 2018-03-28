@@ -72,6 +72,13 @@ Metadata:
           - ChangeSetName
           - ProdStackName
           - ProdStackConfig
+      - Label:
+          default: "Github settings"
+        Parameters:
+          - GitHubOwner
+          - GitHubRepo
+          - GitHubBranch
+          - GitHubToken
 
 Resources:
   ArtifactStoreBucket:
