@@ -22,13 +22,6 @@ Parameters:
   PipelineName:
     Description: A name for pipeline
     Type: String
-  S3Bucket:
-    Description: The name of the S3 bucket that contains the source artifact, which must be in the same region as this stack
-    Type: String
-  SourceS3Key:
-    Default: server.zip
-    Description: The file name of the source artifact, such as myfolder/myartifact.zip
-    Type: String
   TemplateFileName:
     Default: server.yml
     Description: The file name of the Server template
