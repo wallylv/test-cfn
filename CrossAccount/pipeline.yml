@@ -100,12 +100,12 @@ Resources:
       ArtifactStore:
         Location: 
           'Fn::ImportValue':
-            'Fn::Sub': '${KMSStackName}-KMS'
+            'Fn::Sub': '${KMSStackName}-BucketName'
         Type: S3
         EncryptionKey:
           Id:
            'Fn::ImportValue':
-             'Fn::Sub': '${KMSStackName}-BucketName'
+             'Fn::Sub': '${KMSStackName}-KMS'
           Type: KMS
       DisableInboundStageTransitions: []
       Name: !Ref 'PipelineName'
