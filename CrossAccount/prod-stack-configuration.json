@@ -1,7 +1,7 @@
 {
   "Parameters" : {
     "KeyName" : "lwally+1@amazon.com",
-    "VolumeSize" : "27",
+    "VolumeSize" : "29",
     "InstanceType" : "t2.medium"
   }
 }
