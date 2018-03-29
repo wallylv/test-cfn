@@ -100,7 +100,7 @@ Resources:
       ArtifactStore:
         Location: 
           'Fn::ImportValue':
-            'Fn::Sub': '${StackName}-AZ'
+            'Fn::Sub': '${KMSStackName}-KMS'
         Type: S3
         EncryptionKey:
           Id:
