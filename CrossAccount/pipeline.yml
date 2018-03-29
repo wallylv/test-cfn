@@ -5,11 +5,9 @@ Description: >
   This AWS Content is provided subject to the terms of the AWS Customer Agreement available at http://aws.amazon.com/agreement
   or other written agreement between Customer and Amazon Web Services, Inc."
 Parameters:
-  ArtifactStoreBucket:
-    Description: AWS AccountNumber for production
-    Type: String
-  CMKARN:
-    Description: ARN of the KMS CMK creates in Tools account
+  KMSStackName:
+    Description: StackName for KMS
+    Default: KMS
     Type: String
   ProductionAccount:
     Description: AWS AccountNumber for production
@@ -66,7 +64,7 @@ Metadata:
           default: "CodePipeline Settings"
         Parameters:
           - PipelineName
-          - CMKARN
+          - KMSStackName
           - Email
       - Label:
           default: "Test Stack Settings"
@@ -96,15 +94,18 @@ Resources:
       Subscription:
         - Endpoint: !Ref Email
           Protocol: email
-
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
       ArtifactStore:
-        Location: !Ref ArtifactStoreBucket
+        Location: 
+          'Fn::ImportValue':
+            'Fn::Sub': '${StackName}-AZ'
         Type: S3
         EncryptionKey:
-          Id: !Ref CMKARN
+          Id:
+           'Fn::ImportValue':
+             'Fn::Sub': '${KMSStackName}-BucketName'
           Type: KMS
       DisableInboundStageTransitions: []
       Name: !Ref 'PipelineName'
@@ -192,7 +193,7 @@ Resources:
                    - ""
                    - - "arn:aws:iam::"
                      - !Ref ProductionAccount
-                     - ":role/ToolsAcctCodePipelineCloudFormationRole"
+                     - ":role/DevAcctCodePipelineCloudFormationRole"
             - Name: ApproveChangeSet
               ActionTypeId:
                 Category: Approval
@@ -225,7 +226,7 @@ Resources:
                    - ""
                    - - "arn:aws:iam::"
                      - !Ref ProductionAccount
-                     - ":role/ToolsAcctCodePipelineCloudFormationRole"
+                     - ":role/DevAcctCodePipelineCloudFormationRole"
   CFNRole:
     Type: AWS::IAM::Role
     Properties:
