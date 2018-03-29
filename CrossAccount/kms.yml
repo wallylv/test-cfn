@@ -34,6 +34,11 @@ Resources:
                 - ""
                 - - "arn:aws:s3:::"
                   - !Ref ArtifactStoreBucket
+             - !Join
+                - ""
+                - - "arn:aws:s3:::"
+                  - !Ref ArtifactStoreBucket
+                  - "/*"
             Principal:
               AWS:
                 - !Ref ProductionAccount
