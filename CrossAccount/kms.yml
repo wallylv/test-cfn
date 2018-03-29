@@ -16,7 +16,7 @@ Resources:
   ArtifactStoreBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref codepipeline-test-lwally
+      BucketName: codepipeline-test-lwally
       VersioningConfiguration:
         Status: Enabled
   S3BucketPolicy:
