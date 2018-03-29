@@ -140,8 +140,8 @@ Resources:
                 ActionMode: REPLACE_ON_FAILURE
                 RoleArn: !GetAtt [CFNRole, Arn]
                 StackName: !Ref TestStackName
-                TemplateConfiguration: !Sub "TemplateSource::${TestStackConfig}"
-                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
+                TemplateConfiguration: !Sub "TemplateSource::CrossAccount/${TestStackConfig}"
+                TemplatePath: !Sub "TemplateSource::CrossAccount/${TemplateFileName}"
               RunOrder: '1'
             - Name: ApproveTestStack
               ActionTypeId:
@@ -176,13 +176,13 @@ Resources:
                 - Name: TemplateSource
               Configuration:
                 ActionMode: CHANGE_SET_REPLACE
-                RoleArn: arn:aws:iam::${ProductionAccount}:role/cloudformationdeployer-role
+                RoleArn: arn:aws:iam::820623783073:role/cloudformationdeployer-role
                 StackName: !Ref ProdStackName
                 ChangeSetName: !Ref ChangeSetName
-                TemplateConfiguration: !Sub "TemplateSource::${ProdStackConfig}"
-                TemplatePath: !Sub "TemplateSource::${TemplateFileName}"
+                TemplateConfiguration: !Sub "TemplateSource::CrossAccount/${ProdStackConfig}"
+                TemplatePath: !Sub "TemplateSource::CrossAccount/${TemplateFileName}"
               RunOrder: '1'
-              RoleArn: !Sub arn:aws:iam::${ProductionAccount}:role/ToolsAcctCodePipelineCloudFormationRole
+              RoleArn: !Sub arn:aws:iam::820623783073:role/ToolsAcctCodePipelineCloudFormationRole
             - Name: ApproveChangeSet
               ActionTypeId:
                 Category: Approval
@@ -202,10 +202,10 @@ Resources:
               Configuration:
                 ActionMode: CHANGE_SET_EXECUTE
                 ChangeSetName: !Ref ChangeSetName
-                RoleArn: arn:aws:iam::${ProductionAccount}:role/cloudformationdeployer-role
+                RoleArn: arn:aws:iam::820623783073:role/cloudformationdeployer-role
                 StackName: !Ref ProdStackName
               RunOrder: '3'
-              RoleArn: !Sub arn:aws:iam::${ProductionAccount}:role/ToolsAcctCodePipelineCloudFormationRole
+              RoleArn: !Sub arn:aws:iam::820623783073:role/ToolsAcctCodePipelineCloudFormationRole
   CFNRole:
     Type: AWS::IAM::Role
     Properties:
