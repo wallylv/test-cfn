@@ -3,10 +3,10 @@ Description: >
   This is a sample, non-production-ready template for building AWS environemnt 
   (c) 2017 Amazon Web Services, Inc. or its affiliates. All Rights Reserved. 
   This AWS Content is provided subject to the terms of the AWS Customer Agreement available at http://aws.amazon.com/agreement
-  or other written agreement between Customer and Amazon Web Services, Inc."
+  or other written agreement between Customer and Amazon Web Services, Inc. "
 Parameters:
   ProductionAccount:
-    Description: AWS AccountNumber for production
+    Description: AWS Account Number for production
     Type: String
 Resources:
   ArtifactStoreBucket:
